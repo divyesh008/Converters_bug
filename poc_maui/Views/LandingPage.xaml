@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:poc_maui.ViewModels"
+             x:Class="poc_maui.Views.LandingPage"
+             Title="LandingPage">
+   
+    <ContentPage.BindingContext>
+        <vm:LandingPageViewModel />
+    </ContentPage.BindingContext>
+
+     <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid RowDefinitions="*,Auto" Padding="10" VerticalOptions="FillAndExpand" BackgroundColor="LightGray">
+            <CollectionView Grid.Row="0"
+                            ItemsSource="{Binding Inspections}"
+                            VerticalScrollBarVisibility="Always"
+                            ItemsLayout="VerticalList" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="15" HasShadow="False">
+                            <Grid BackgroundColor="White"
+                                  RowSpacing="25"
+                                  RowDefinitions="Auto,Auto,Auto"
+                                  ColumnDefinitions="*,Auto">
+                                <StackLayout
+                                    Orientation="Horizontal"
+                                    Grid.Row="0"
+                                    Grid.Column="0">
+                                    <Label Text="{Binding Path=BusinessName}"
+                                           FontSize="Title" />
+                                </StackLayout>
+
+                                <Grid Grid.Row="1"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      RowDefinitions="Auto, Auto"
+                                      ColumnDefinitions="*, *">
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontSize="Micro"
+                                        Text="Inspection Type"/>
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        FontSize="Small"
+                                        BackgroundColor="Yellow"
+                                        Text="{Binding InspectionType}"/>
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="Micro"
+                                        Text="Primary Inspector"/>
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1" FontSize="Small">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Path=InspectorFirstName}"/>
+                                                <Span Text=" "/>
+                                                <Span Text="{Binding Path=InspectorLastName}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+
+                                <Grid Grid.Row="2"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      RowDefinitions="*, *"
+                                      ColumnDefinitions="*, *">
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="0"
+                                        FontSize="Micro"
+                                        Text="Scheduled Date" />
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        FontSize="Small"
+                                        Text="{Binding Path=ScheduledStartDate}"/>
+                                        
+
+                                    <Label
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        FontSize="Micro"
+                                        Text="Completed Date"/>
+
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.Column="1"
+                                        FontSize="Small"
+                                        Text="{Binding Path=CompletionDate}"/>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <StackLayout
+                    Grid.Row="1"
+                    VerticalOptions="End"
+                    HorizontalOptions="FillAndExpand"
+                    BackgroundColor="White">
+                <Label Text="Begin inspection" HorizontalOptions="Center"/>
+            </StackLayout>
+        </Grid>
+    </StackLayout>
+</ContentPage>

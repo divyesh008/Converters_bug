@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="poc_maui.Views.SubViews.AttachmentList"
+             x:Name="_attachmentCollectionControl"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converter="clr-namespace:poc_maui.Converters">
+
+    <ContentView.Resources>
+        <!--<toolkit:IsListNotNullOrEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter"/>
+        <toolkit:VariableMultiValueConverter
+            x:Key="IsMultiValueAllTrueConverter"
+            ConditionType="All"/>-->
+        <converter:IsListNotNullOrNotEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter" />
+        <converter:IsMultiValueAllTrueConverter x:Key="IsMultiValueAllTrueConverter" />
+    </ContentView.Resources>
+
+    <Grid
+        Margin="0"
+        Padding="0"
+        BindingContext="{x:Reference _attachmentCollectionControl}"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill">
+        <CollectionView
+            Grid.Row="0"
+            x:Name="_attachmentListView"
+            HorizontalOptions="Fill"
+            ItemsSource="{Binding Attachments}"
+            VerticalOptions="Fill"
+            HorizontalScrollBarVisibility="Never">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout
+                    HorizontalOptions="{OnPlatform Default=Center, Android=Fill}"
+                    VerticalOptions="Center"
+                    Margin="0,100,0,0"
+                    MinimumHeightRequest="{OnPlatform Android=400, iOS=500}">
+                    <Label Text="No attachments"/>
+                    <Button
+                            Grid.Column="0"
+                            Margin="15,5"
+                            BackgroundColor="{StaticResource Key=AppPrimaryBackgroundColor}"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding Path=IsEditable, Source={x:Reference _attachmentCollectionControl}}"
+                            Text="Add Attachments"
+                            TextColor="{StaticResource AppPrimaryForegroundColor}"
+                            WidthRequest="350"/>
+                </VerticalStackLayout>
+
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Padding="20,10"
+                        Background="Transparent"
+                        Stroke="{StaticResource CommonLightGrayColor}"
+                        StrokeShape="Rectangle"
+                        StrokeThickness="1">
+                        <Grid
+                            Padding="0"
+                            ColumnDefinitions="Auto, *"
+                            ColumnSpacing="25"
+                            RowDefinitions="Auto, Auto, Auto"
+                            RowSpacing="5">
+
+                            <Grid
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                ColumnDefinitions="*, Auto"
+                                RowDefinitions="Auto, Auto"
+                                RowSpacing="5">
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Style="{StaticResource CardTitleLabelStyle}"
+                                    Text="{Binding FileName}"
+                                    TextColor="{StaticResource AppAlternateForegroundColor}"/>
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Style="{StaticResource CardTitleLabelSmallStyle}"
+                                    TextColor="{StaticResource CommonGrayColor}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Uploaded "/>
+                                            <Span Text="{Binding UploadedDate, Converter={StaticResource AttachmentDateFormatter}}"/>
+                                            <Span Text=" at "/>
+                                            <Span Text="{Binding UploadedDate, Converter={StaticResource AttachmentTimeFormatConverter}}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Button
+                                    Grid.Row="0"
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Text="Delete"
+                                    HorizontalOptions="End"
+                                    VerticalOptions="Center"
+                                    Command="{Binding Source={x:Reference _attachmentCollectionControl},
+                                                      Path=AttachmentDeleteCommand}"
+                                    CommandParameter="{Binding .}"/>
+                            </Grid>
+
+                            <Image
+                                Grid.Row="1"
+                                Grid.RowSpan="2"
+                                HeightRequest="100"
+                                WidthRequest="100"
+                                BackgroundColor="Aqua"
+                                Aspect="Fill"
+                                Margin="0,10">
+                                <Image.Triggers>
+                                    <DataTrigger TargetType="Image"
+                                                 Binding="{Binding  ImageFilePath, Converter={StaticResource ImageAttachmentVisibilityConverter}}"
+                                                 Value="True">
+                                        <Setter Property="IsVisible"
+                                                Value="False"/>
+                                    </DataTrigger>
+                                </Image.Triggers>
+                            </Image>
+                            <BoxView
+                                BackgroundColor="LightBlue"
+                                Grid.Row="1"
+                                Grid.RowSpan="2"
+                                Margin="0,10">
+                            </BoxView>
+
+                            <VerticalStackLayout
+                               Grid.Row="1"
+                               Grid.Column="1"
+                                Spacing="10"
+                               Margin="0,10,0,0">
+                                <Label Text="Attachment group"/>
+                                <Label Text="{Binding AttachmentGroupName}"/>
+                            </VerticalStackLayout>
+                            <VerticalStackLayout
+                               Grid.Row="2"
+                               Grid.Column="1"
+                                Spacing="10"
+                               Margin="0,10,0,0">
+                                <Label Text="Notes"/>
+                                <Label Text="{Binding Notes}"/>
+                            </VerticalStackLayout>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+        <Button
+            Grid.Row="0"
+            Text="Add"
+            BorderColor="#2b3c3c"
+            BorderWidth="1"
+            FontAttributes="Bold"
+            BackgroundColor="#4ba862"
+            TextColor="White"
+            HorizontalOptions="End"
+            WidthRequest="160"
+            HeightRequest="70"
+            Margin="0,0,20,22"
+            VerticalOptions="End">
+            <Button.IsVisible>
+                <!--Though it is an ObservableCollection property it does getting notified for changes-->
+                 <MultiBinding Converter="{StaticResource IsMultiValueAllTrueConverter}">
+                    <Binding
+                        Path="Attachments"
+                        Converter="{StaticResource IsListNotNullOrNotEmptyConverter}"/>
+                    <Binding Path="IsEditable"/>
+                </MultiBinding>
+
+                <!--Un-comment this and comment above MultiBinding, to make it work.-->
+                <!--<MultiBinding Converter="{StaticResource IsMultiValueAllTrueConverter}">
+                    <Binding Path="HasData"/>
+                    <Binding Path="IsEditable"/>
+                </MultiBinding>-->
+            </Button.IsVisible>
+        </Button>
+    </Grid>
+</ContentView>
+

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:poc_maui.ViewModels"
+             xmlns:control="clr-namespace:poc_maui.Views.SubViews"
+             x:Class="poc_maui.Views.AttachmentsPage"
+             Title="AttachmentsPage">
+
+    <ContentPage.BindingContext>
+        <vm:AttachmentsPageViewModel />
+    </ContentPage.BindingContext>
+
+    <Grid RowDefinitions="Auto,*">
+        <Grid  Grid.Row="0"
+                       Padding="0"
+                       ColumnSpacing="5"
+                       ColumnDefinitions="*,*">
+            <Button Grid.Column="0"
+                                BackgroundColor="Blue"
+                                TextColor="White"
+                                HorizontalOptions="Start"
+                                WidthRequest="170"
+                                Margin="15,5"
+                                Command="{Binding Path=ToggleDataCommand}"
+                                Text="Toggle Data"/>
+            <Button Grid.Column="1"
+                                BackgroundColor="Blue"
+                                TextColor="White"
+                                HorizontalOptions="End"
+                                WidthRequest="170"
+                                Margin="15,0"
+                                Command="{Binding Path=ToggleEditModeCommand}"
+                                Text="Toggle Edit Mode"/>
+        </Grid>
+        <control:AttachmentList
+            Grid.Row="1"
+            AttachmentDeleteCommand="{Binding Path=AttachmentDeleteCommand}"
+            Attachments="{Binding Path=AttachmentList}"
+            IsEditable="{Binding Path=IsAttachmentsEditable}"
+            HasData="{Binding Path=IsAttachmentsHasData}" />
+    </Grid>
+
+</ContentPage>
