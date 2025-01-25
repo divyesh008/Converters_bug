@@ -10,6 +10,8 @@
         <toolkit:IsListNotNullOrEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter"/>
         <toolkit:VariableMultiValueConverter x:Key="IsMultiValueAllTrueConverter" ConditionType="All"/>
 
+        <!-- Local Converters: Uncomment these lines to debug and investigate the issue.
+             Issue: These both converters are not being triggered when an item is deleted from the collection.-->
         <!--<converter:IsListNotNullOrNotEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter" />
         <converter:IsMultiValueAllTrueConverter x:Key="IsMultiValueAllTrueConverter" />-->
     </ContentView.Resources>
