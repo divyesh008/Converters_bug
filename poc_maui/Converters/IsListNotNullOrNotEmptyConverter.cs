@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace poc_maui.Converters
@@ -8,7 +7,7 @@ namespace poc_maui.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ObservableCollection<object> list)
+            if (value is IList list)
             {
                 return list?.Count > 0;
             }
