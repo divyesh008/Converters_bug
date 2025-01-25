@@ -7,12 +7,11 @@
              xmlns:converter="clr-namespace:poc_maui.Converters">
 
     <ContentView.Resources>
-        <!--<toolkit:IsListNotNullOrEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter"/>
-        <toolkit:VariableMultiValueConverter
-            x:Key="IsMultiValueAllTrueConverter"
-            ConditionType="All"/>-->
-        <converter:IsListNotNullOrNotEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter" />
-        <converter:IsMultiValueAllTrueConverter x:Key="IsMultiValueAllTrueConverter" />
+        <toolkit:IsListNotNullOrEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter"/>
+        <toolkit:VariableMultiValueConverter x:Key="IsMultiValueAllTrueConverter" ConditionType="All"/>
+
+        <!--<converter:IsListNotNullOrNotEmptyConverter x:Key="IsListNotNullOrNotEmptyConverter" />
+        <converter:IsMultiValueAllTrueConverter x:Key="IsMultiValueAllTrueConverter" />-->
     </ContentView.Resources>
 
     <Grid
